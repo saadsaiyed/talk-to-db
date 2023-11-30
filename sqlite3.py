@@ -12,6 +12,7 @@ def get_relevant_data(user_prompt):
     doc = nlp(user_prompt)
     keywords = [token.text for token in doc if not token.is_stop]
     
+    # TODO @ibrahim: Check if the keywords are accurate and add if necessary
     # Mapping keywords to database tables
     table_mapping = {
         "user": [
@@ -76,7 +77,7 @@ def get_relevant_data(user_prompt):
         if keyword in table_mapping:
             relevant_columns.update(table_mapping[keyword])
 
-            # TODO: one more for loop to go through keywords for column
+            # TODO @ibrahim: one more for loop to go through keywords for column
 
     # Dynamic SQL Query Generation
     sql_query = f"SELECT {', '.join(relevant_columns)} FROM your_table WHERE ..."
@@ -89,6 +90,9 @@ def get_relevant_data(user_prompt):
     for row in results:
         print(row)
 
+    # @ibrahim: I will be expecting results to have most relevant data to be fed to model function
+
+    # TODO @sishui: Create the function and its logic
     # Pass the relevant data as context to your model (replace with your model logic)
     model_output = your_model_function(results)
 
