@@ -71,8 +71,8 @@ def get_relevant_data(user_prompt):
         ]
     }
 
-    # Create a list of relevant columns based on keywords
-   for keyword in keywords:
+   # Create a list of relevant columns based on keywords
+for keyword in keywords:
     if keyword in table_mapping:
         # Instead of directly adding columns to the relevant_columns set, create a temporary set for each keyword and merge it with the main set
         temp_relevant_columns = set()
@@ -107,6 +107,7 @@ for row in results:
         'order_date': row['order_date'],
         'amount': row['amount']
     })
+
 
     # @ibrahim: I will be expecting results to have most relevant data to be fed to model function
 
