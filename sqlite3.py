@@ -94,6 +94,20 @@ def get_relevant_data(user_prompt):
     for row in results:
         print(row)
 
+       relevant_data_for_model = []
+
+for row in results:
+    # Extracting relevant data from the results
+    relevant_data_for_model.append({
+        'user_id': row['user_id'],
+        'username': row['username'],
+        'email': row['email'],
+        'order_id': row['order_id'],
+        'product_name': row['product_name'],
+        'order_date': row['order_date'],
+        'amount': row['amount']
+    })
+
     # @ibrahim: I will be expecting results to have most relevant data to be fed to model function
 
     # TODO @sishui: Create the function and its logic
