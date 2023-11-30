@@ -33,7 +33,7 @@ def get_relevant_data(user_prompt):
                 }
             },
             {
-                "table":"orders", 
+                "table":"orders",
                 "column_mapping": {
                     "user":["order_id", "user_id"],
                     "orders":["order_id", "user_id", "product_name", "amount", "order_date"]

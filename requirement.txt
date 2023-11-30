@@ -1,2 +1,5 @@
 replicate>=0.21.0
 pymysql>=1.1.0
+mysql.connector>=2.1.4
+spacy
+transformers
