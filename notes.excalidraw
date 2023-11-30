@@ -1,0 +1,81 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "qj3MnUKhZyzd-EKLrLU7I",
+      "type": "rectangle",
+      "x": 512,
+      "y": 114,
+      "width": 835,
+      "height": 610,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [
+        "d40HYYHSoDY4hp3XUlLov"
+      ],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 908899352,
+      "version": 308,
+      "versionNonce": 295263000,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1701274795731,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "tHLZxvhUiJhbPf9WfO0BF",
+      "type": "text",
+      "x": 556,
+      "y": 163,
+      "width": 756.599365234375,
+      "height": 350,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [
+        "d40HYYHSoDY4hp3XUlLov"
+      ],
+      "frameId": null,
+      "roundness": null,
+      "seed": 181815576,
+      "version": 987,
+      "versionNonce": 1311435624,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1701274897535,
+      "link": null,
+      "locked": false,
+      "text": "Initial Thoughts:\nAn app that lets you import your SQL DB and allows you to talk to it\nin common language\n\n\nUse case:\nAn individual who is focusing on business growth can focus on growth \nrather than learning queries or hiring a bunch of Developers who can do \n\"Select * From...\"\n\nInvest more time in business growth instead of learning how to code.\n\nLet the AI provide you with a Sales report. AI-driven Purchase Orders with\n10 times more efficient trade.",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 343,
+      "containerId": null,
+      "originalText": "Initial Thoughts:\nAn app that lets you import your SQL DB and allows you to talk to it\nin common language\n\n\nUse case:\nAn individual who is focusing on business growth can focus on growth \nrather than learning queries or hiring a bunch of Developers who can do \n\"Select * From...\"\n\nInvest more time in business growth instead of learning how to code.\n\nLet the AI provide you with a Sales report. AI-driven Purchase Orders with\n10 times more efficient trade.",
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
