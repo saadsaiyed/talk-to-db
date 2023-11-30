@@ -1,4 +1,25 @@
-import replicate
+import replicate, os, logging
+
+
+def import_db():
+    database_file_name = "./db.mysql"
+    if os.path.exists(database_file_name):
+        if os.path.getsize(database_file_name) > 0:
+            with open(database_file_name) as database:
+                current_data = database
+
+data = ""
+prompt_template = '''
+<|im_start|>system
+You are a Data Scientist that can understand DataBase in-depth. You will be given exported data from MySQL including the relation between the tables.
+Your job is to answer the question precisely and solely based on the data given.
+Following is the mysql exported data.
+```mysql
+'''+data+'''```<|im_end|>
+<|im_start|>user
+{prompt}<|im_end|>
+<|im_start|>assistant
+'''
 
 while True:
     output = replicate.run(
@@ -9,7 +30,7 @@ while True:
         "prompt": input(),
         "temperature": 0.3,
         "max_new_tokens": 1024,
-        "prompt_template": "<|im_start|>system\nYou are a helpful assistant<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+        "prompt_template": prompt_template,
         "repetition_penalty": 1.2
     }
     )
