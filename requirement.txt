@@ -1,0 +1,2 @@
+replicate>=0.21.0
+pymysql>=1.1.0
