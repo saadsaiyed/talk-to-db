@@ -72,10 +72,14 @@ def get_relevant_data(user_prompt):
     }
 
     # Create a list of relevant columns based on keywords
-    relevant_columns = set()
-    for keyword in keywords:
-        if keyword in table_mapping:
-            relevant_columns.update(table_mapping[keyword])
+   for keyword in keywords:
+    if keyword in table_mapping:
+        # Instead of directly adding columns to the relevant_columns set, create a temporary set for each keyword and merge it with the main set
+        temp_relevant_columns = set()
+        for table_entry in table_mapping[keyword]:
+            temp_relevant_columns.update(table_entry["column_mapping"].values())
+        relevant_columns.update(temp_relevant_columns)
+
 
             # TODO @ibrahim: one more for loop to go through keywords for column
 
