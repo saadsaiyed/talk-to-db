@@ -33,8 +33,9 @@ def import_db():
 def main():
     prompt = input("What do you want to know about your Database?\n")
     
-    data = load_db.get_relevant_data(prompt)
-    
+    # data = load_db.get_relevant_data(prompt)
+    data = load_db.extract_all()
+    exit()
     prompt_template = '''
     <|im_start|>system
     You are a Data Scientist that can understand DataBase in-depth. You will be given exported data from MySQL including the relation between the tables.

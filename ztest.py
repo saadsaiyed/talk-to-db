@@ -1,5 +1,4 @@
-import sqlite3
-import spacy
+import sqlite3, spacy
 
 # Load spaCy NLP model
 nlp = spacy.load("en_core_web_sm")
@@ -23,22 +22,76 @@ def extract_keywords(question):
 
 def construct_query(keywords):
     # Example: Map keywords to potential columns
+    table_mapping = {
+        "user": [
+            {
+                "table":"users", 
+                "column_mapping": {
+                    "user":["user_id", "username", "email"]
+                }
+            },
+            {
+                "table":"orders", 
+                "column_mapping": {
+                    "user":["order_id", "user_id"],
+                    "orders":["order_id", "user_id", "product_name", "amount"],
+                }
+            }
+        ],
+        "customer": [
+            {
+                "table":"users", 
+                "column_mapping": {
+                    "user":["user_id", "username", "email"]
+                }
+            },
+            {
+                "table":"orders",
+                "column_mapping": {
+                    "user":["order_id", "user_id"],
+                    "orders":["order_id", "user_id", "product_name", "amount", "order_date"]
+                }
+            }
+        ],
+        "orders": [
+            {
+                "table":"orders", 
+                "column_mapping": {
+                    "user":["order_id", "product_name", "order_date", "amount", "user_id"],
+                    "orders":["order_id", "product_name", "order_date", "amount"]
+                }
+            }            
+        ],
+        "products": [
+            {
+                "table":"orders", 
+                "column_mapping": {
+                    "user":["order_id", "product_name", "order_date", "amount"],
+                    "orders":["order_id", "product_name", "order_date", "amount"],
+                }
+            }
+        ]
+    }
+
     keyword_to_column = {
         'laptops': 'product_name',
         'sold': 'order_date'  # Assuming 'sold' relates to 'order_date' in your schema
     }
-
-    conditions = []
+    table_selections = []
+    column_selections = []
     for keyword in keywords:
-        if keyword in keyword_to_column:
-            conditions.append(f"{keyword_to_column[keyword]} LIKE '%{keyword}%'")
+        if keyword in table_mapping:
+            for i in table_mapping[keyword]:
+                table_selections.append(f"{i['table']} LIKE '%{keyword}%'")
 
-    if not conditions:
+    if not table_selections:
         return None
 
     # Constructing a basic SQL query (customize based on your schema)
-    sql_query = f"SELECT COUNT(*) FROM orders WHERE {' AND '.join(conditions)}"
-    return sql_query
+    queries = []
+    for i in table_selections:
+        queries.append(f"SELECT COUNT(*) FROM orders")
+    return queries
 
 def get_relevant_data(question):
     keywords = extract_keywords(question)

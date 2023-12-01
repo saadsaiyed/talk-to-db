@@ -1,14 +1,27 @@
 import sqlite3, spacy
 
+# Load spaCy NLP model
 nlp = spacy.load("en_core_web_sm")
 
-def get_relevant_data(user_prompt):
-    # Tokenize and extract keywords using spaCy
-    doc = nlp(user_prompt)
-    keywords = [token.text for token in doc if not token.is_stop]
-    
-    # TODO @ibrahim: Check if the keywords are accurate and add if necessary
-    # Mapping keywords to database tables
+# Function to read SQL commands from a file
+def read_sql_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+# Create an in-memory SQLite database
+conn = sqlite3.connect(':memory:')
+cursor = conn.cursor()
+
+# Read and execute SQL commands from the file
+sql_commands = read_sql_file('sample.sql')
+cursor.executescript(sql_commands)
+
+def extract_keywords(question):
+    doc = nlp(question)
+    return [token.text.lower() for token in doc if not token.is_stop and token.is_alpha]
+
+def construct_query(keywords):
+    # Example: Map keywords to potential columns
     table_mapping = {
         "user": [
             {
@@ -59,56 +72,51 @@ def get_relevant_data(user_prompt):
             }
         ]
     }
-    
-    # Create a list of relevant columns based on keywords
+
+    keyword_to_column = {
+        'laptops': 'product_name',
+        'sold': 'order_date'  # Assuming 'sold' relates to 'order_date' in your schema
+    }
+    table_selections = []
+    column_selections = []
     for keyword in keywords:
-        print(keyword)
-        # if keyword in table_mapping:
-        #     # Instead of directly adding columns to the relevant_columns set, create a temporary set for each keyword and merge it with the main set
-        #     temp_relevant_columns = set()
-        #     for table_entry in table_mapping[keyword]:
-        #         temp_relevant_columns.update(table_entry["column_mapping"].values())
-        #     relevant_columns.update(temp_relevant_columns)
+        if keyword in table_mapping:
+            for i in table_mapping[keyword]:
+                table_selections.append(f"{i['table']} LIKE '%{keyword}%'")
 
+    if not table_selections:
+        return None
 
-            # TODO @ibrahim: one more for loop to go through keywords for column
+    # Constructing a basic SQL query (customize based on your schema)
+    queries = []
+    for i in table_selections:
+        queries.append(f"SELECT COUNT(*) FROM orders")
+    return queries
 
-            # # Dynamic SQL Query Generation
-            # sql_query = f"SELECT {', '.join(relevant_columns)} FROM your_table WHERE ..."
+def get_relevant_data(question):
+    keywords = extract_keywords(question)
+    print(keywords)
+    query = construct_query(keywords)
+    print(query)
 
-            # # Execute the SQL query on the database
-            # cursor.execute(sql_query)
-            # results = cursor.fetchall()
+    if query:
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result
+    else:
+        return "No relevant data found."
+
+def extract_all():
+    response = []
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     
-    # # Process the results (replace with your logic)
-    # for row in results:
-    #     print(row)
+    tables = cursor.fetchall()
+    print("\tTables:")
+    for table in tables:
+        print(f"\t\t{table[0]}")  # Index 1 corresponds to the column name
+        columns = cursor.execute(f"PRAGMA table_info({table[0]});").fetchall()
+        print("\t\t\tColumns:")
+        for column in columns:
+            print(f"\t\t\t\t{column[1]}")
 
-    # relevant_data_for_model = []
-
-    # for row in results:
-    #     # Extracting relevant data from the results
-    #     relevant_data_for_model.append({
-    #         'user_id': row['user_id'],
-    #         'username': row['username'],
-    #         'email': row['email'],
-    #         'order_id': row['order_id'],
-    #         'product_name': row['product_name'],
-    #         'order_date': row['order_date'],
-    #         'amount': row['amount']
-    #     })
-
-
-    # # @ibrahim: I will be expecting results to have most relevant data to be fed to model function
-
-    # # TODO @sishui: Create the function and its logic
-    # # Pass the relevant data as context to your model (replace with your model logic)
-    # model_output = your_model_function(results)
-
-    return None
-
-# Example User Prompt
-user_prompt = "how many orders we have?"
-
-# Call the function with the user's prompt
-output = get_relevant_data(user_prompt)
+    return response

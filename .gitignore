@@ -1,1 +1,6 @@
 db.sql
+.env
+
+# vs code stuff
+__pycache__
+.vscode

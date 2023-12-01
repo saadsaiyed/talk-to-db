@@ -1,12 +1,16 @@
-import mysql.connector
+import mysql.connector, os
 from mysql.connector import Error
 
+# This is to import all the environment variables
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv('config/.env'))
+
 db = mysql.connector.connect(
-    host = "mysql-hackathon-23944e6d-lenicholsdev.a.aivencloud.com",
-    user = "avnadmin",
-    port = "12715",
-    password = "AVNS_y-TKYj1TQtHfx4qSgDj",
-    database = "YIAirlinesHelp"
+    host = os.getenv("DB_HOST"),
+    user = os.getenv("DB_USERNAME"),
+    port = os.getenv("DB_PORT"),
+    password = os.getenv("DB_PASSWORD"),
+    database = os.getenv("DB_DATABASE")
 )
 
 def execute_query(query):
@@ -16,5 +20,6 @@ def execute_query(query):
         results = cursor.fetchall()
         for x in results:
             print(x)
+        return results
     except Error as err:
         print(f"Error: '{err}'")
